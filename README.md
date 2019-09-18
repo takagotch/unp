@@ -61,6 +61,32 @@ class StreamProcessor(object):
 
 class UnpackerBase(object):
   id = None
+
+
+
+@click.version_option()
+def cli(files, silent, output, dump_command, forced_unpacker):
+  if output is None:
+    output = '.'
+    
+  unpackers = []
+  
+  for filename in files:
+    filename = os.path.realpath(filename)
+    if not os.path.isfile(filename)
+      raise click.UsageError('Could not find file "%s".' %
+        click.format_filename(filename))
+    if forced_unpacker is not None:
+      unpacker_cls = forced_unpacker
+    else:
+      unpacker_cls = get_unpacker_class(filename)
+    unpackers.append(unpaker_cls(filename, silent=silent))
+    
+  for unpacker in unpackers:
+    if dump_command:
+      unpacker.dump_command(output)
+    else:
+      unpacker.unpack(output)
 ```
 
 ```
